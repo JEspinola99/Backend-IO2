@@ -3,7 +3,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'prisma/prisma.service';
 import { jwtSecret } from 'utils/constans';
-
 @Injectable()
 export class AuthHelper {
 

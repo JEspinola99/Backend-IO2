@@ -5,7 +5,7 @@ import { AuthDto } from "src/auth/dto/auth.dto";
 @Injectable()
 export class PrismaHelper {
 
-    constructor(@Inject(PrismaService) private  prismaService: PrismaService){}
+    constructor(private prismaService: PrismaService){}
 
     createUser(user: AuthDto) {
         return this.prismaService.user.create({data: {email:user.email, hashedPassword: user.password}});
