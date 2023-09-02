@@ -22,7 +22,7 @@ export class AuthService {
 
             const hashedPassword = await this.authUtils.hashPassword(password)
 
-            await this.prismaUtils.createUser({ email, password: hashedPassword })
+            await this.prismaUtils.createUser({ email, password: hashedPassword})
 
             return { message: 'Signup succes' };
 
