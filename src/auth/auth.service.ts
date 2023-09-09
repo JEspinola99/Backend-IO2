@@ -2,7 +2,7 @@ import { BadRequestException, ForbiddenException, Inject, Injectable } from '@ne
 import { AuthDto } from './dto/auth.dto';
 import { AuthHelper } from './authHelper';
 import { PrismaHelper } from 'prisma/prismaHelper';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 @Injectable()
 export class AuthService {
 
@@ -22,7 +22,7 @@ export class AuthService {
 
             const hashedPassword = await this.authUtils.hashPassword(password)
 
-            await this.prismaUtils.createUser({ email, password: hashedPassword})
+            await this.prismaUtils.createUser({ email, password: hashedPassword })
 
             return { message: 'Signup succes' };
 
@@ -37,22 +37,20 @@ export class AuthService {
 
             const foundUser = await this.authUtils.checkUser(email)
 
-            if (!foundUser) throw new BadRequestException('Wrong credentials')
+            if (!foundUser) throw new BadRequestException('Usuario o Contraseña no validos')
 
             const checkPass = await this.authUtils.checkPass(password, foundUser.hashedPassword);
 
-            if (!checkPass) throw new BadRequestException('Wrong credentials')
+            if (!checkPass) throw new BadRequestException('Usuario o Contraseña no validos')
 
             const token = await this.authUtils.signToken(foundUser.id, email)
-
-            if (!token) throw new ForbiddenException()
 
             res.cookie('token', token, {
                 secure: true,
                 httpOnly: true
             })
 
-            return res.send({ message: 'Logged in succesfully' });
+            return res.send("Logged in succesfully");
 
         } catch (error) {
             throw error;

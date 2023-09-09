@@ -15,14 +15,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             secretOrKey: jwtSecret,
         });
     }
-
+    
     private static extractJWT(req: Request): string | null {
         if (req.cookies && 'token' in req.cookies) {
             return req.cookies.token;
         }
         return null;
     }
-
+    
 
     async validate(payload: {id:string, email:string}) {
         return payload;

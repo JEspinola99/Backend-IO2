@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Auth')
 @Controller('auth')
@@ -14,12 +14,12 @@ export class AuthController {
   }
 
   @Get('signout')
-  signout(@Req() @Res() res: Response) {
+  signout(@Res() res: Response) {
     return this.authService.signout(res);
   }
 
   @Post('signin')
-  signin(@Body() user: AuthDto, @Res() res: Response) {
+  async signin(@Body() user: AuthDto, @Res() res: Response) {
     return this.authService.signin(user, res);
   }
 }
