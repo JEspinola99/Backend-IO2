@@ -1,2 +1,2 @@
-export const jwtSecret = process.env.JWT_SECRET;
+export const jwtSecret = "secret";
 export const jwtRefrest = process.env.JWT_REFRESH;
