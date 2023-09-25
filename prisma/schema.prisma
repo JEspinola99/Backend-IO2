@@ -14,3 +14,52 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
+
+model EspacioDeTrabajo {
+  id             Int      @id @default(autoincrement())
+  nombre         String   @unique
+  usuarioId      Int
+  usuario        User  @relation(fields: [usuarioId], references: [id])
+}
+
+model Tablero {
+  id             Int      @id @default(autoincrement())
+  nombre         String   @unique
+  fechaCreacion  DateTime
+  espacioDeTrabajoId    Int
+  espacioDeTrabajo      EspacioDeTrabajo @relation(fields: [espacioDeTrabajoId], references: [id])
+}
+
+model Columna {
+  id             Int      @id @default(autoincrement())
+  nombre         String   @unique
+  tableroId      Int
+  tablero        Tablero @relation(fields: [tableroId], references: [id])
+}
+
+model Tarea {
+  id Int @id @default(autoincrement())
+  descripcion String
+  titulo String
+  fechaCreacion DateTime
+  fechaVencimiento DateTime
+  usuarioId Int
+  usuario User @relation(fields: [usuarioId], references: [id])
+  etiquetaId Int
+  etiqueta Etiqueta @relation(fields: [etiquetaId], references: [id])
+}
+
+model Etiqueta {
+  id Int @id @default(autoincrement())
+  nombre String @unique
+  color String
+}
+
+model TareasXColumnas {
+  columnaId Int
+  tareaId Int
+  fechaAlta DateTime
+  fechaBaja DateTime
+  columna Columna @relation(fields: [columnaId], references: [id])
+  tarea Tarea @relation(fields: [tareaId], references: [id])
+}
