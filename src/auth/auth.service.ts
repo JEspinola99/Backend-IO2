@@ -3,26 +3,28 @@ import { AuthDto } from './dto/auth.dto';
 import { AuthHelper } from './authHelper';
 import { PrismaHelper } from 'prisma/prismaHelper';
 import { Response, Request } from 'express';
+import { UsersService } from 'src/users/users.service';
 @Injectable()
 export class AuthService {
 
     constructor(
         private authUtils: AuthHelper,
-        private prismaUtils: PrismaHelper
+        private userService: UsersService
     ) { }
 
 
     async signup(user: AuthDto) {
         try {
-            const { password, email } = user;
+            const { password, email, nombre } = user;
 
-            const foundUser = await this.authUtils.checkUser(email)
+            const foundUser = await this.userService.getMyUser(email)
 
             if (foundUser) throw new BadRequestException('Email already exists')
 
             const hashedPassword = await this.authUtils.hashPassword(password)
 
-            await this.prismaUtils.createUser({ email, password: hashedPassword })
+            const res = await this.userService.createUser({ email, password: hashedPassword, nombre })
+            console.log(res)
 
             return { message: 'Signup succes' };
 
@@ -35,7 +37,7 @@ export class AuthService {
         try {
             const { password, email } = user;
 
-            const foundUser = await this.authUtils.checkUser(email)
+            const foundUser = await this.userService.getMyUser(email)
 
             if (!foundUser) throw new BadRequestException('Usuario o Contraseña no validos')
 

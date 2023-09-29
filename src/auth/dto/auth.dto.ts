@@ -8,4 +8,6 @@ export class AuthDto {
     @IsString()
     @Length(3,20, {message: 'Password has to be at between 3 and 20 chars'})
     public password: string;
+    @IsString()
+    public nombre: string;
 }

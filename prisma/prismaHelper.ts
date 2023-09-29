@@ -7,7 +7,7 @@ export class PrismaHelper {
 
     constructor(private prismaService: PrismaService){}
 
-    createUser(user: AuthDto) {
-        return this.prismaService.user.create({data: {email:user.email, hashedPassword: user.password}});
-    }
+    // createUser(user: AuthDto) {
+    //     return this.prismaService.user.create({data: {email:user.email, hashedPassword: user.password}});
+    // }
 }

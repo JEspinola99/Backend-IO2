@@ -7,59 +7,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id             Int      @id @default(autoincrement())
-  email          String   @unique
-  hashedPassword String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+model Usuario {
+  id                 Int               @id @default(autoincrement())
+  email              String            @unique
+  nombre             String
+  hashedPassword     String
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  espaciosDeTrabajo  EspaciosDeTrabajoUsuario[]
 }
 
 model EspacioDeTrabajo {
-  id             Int      @id @default(autoincrement())
-  nombre         String   @unique
-  usuarioId      Int
-  usuario        User  @relation(fields: [usuarioId], references: [id])
+  id    Int    @id @default(autoincrement())
+  nombre  String @unique
+  creadorId Int
+  usuarios EspaciosDeTrabajoUsuario[]
 }
 
-model Tablero {
-  id             Int      @id @default(autoincrement())
-  nombre         String   @unique
-  fechaCreacion  DateTime
-  espacioDeTrabajoId    Int
-  espacioDeTrabajo      EspacioDeTrabajo @relation(fields: [espacioDeTrabajoId], references: [id])
+model EspaciosDeTrabajoUsuario {
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int 
+  espacioDeTrabajo EspacioDeTrabajo @relation(fields: [espacioDeTrabajoId], references: [id])
+  espacioDeTrabajoId Int
+  @@id([usuarioId, espacioDeTrabajoId])
 }
 
-model Columna {
-  id             Int      @id @default(autoincrement())
-  nombre         String   @unique
-  tableroId      Int
-  tablero        Tablero @relation(fields: [tableroId], references: [id])
-}
+// model Tablero {
+//   id             Int      @id @default(autoincrement())
+//   nombre         String   @unique
+//   fechaCreacion  DateTime
+//   espacioDeTrabajoId    Int
+//   espacioDeTrabajo      EspacioDeTrabajo @relation(fields: [espacioDeTrabajoId], references: [id])
+// }
 
-model Tarea {
-  id Int @id @default(autoincrement())
-  descripcion String
-  titulo String
-  fechaCreacion DateTime
-  fechaVencimiento DateTime
-  usuarioId Int
-  usuario User @relation(fields: [usuarioId], references: [id])
-  etiquetaId Int
-  etiqueta Etiqueta @relation(fields: [etiquetaId], references: [id])
-}
+// model Columna {
+//   id             Int      @id @default(autoincrement())
+//   nombre         String   @unique
+//   tableroId      Int
+//   tablero        Tablero @relation(fields: [tableroId], references: [id])
+// }
 
-model Etiqueta {
-  id Int @id @default(autoincrement())
-  nombre String @unique
-  color String
-}
+// model Tarea {
+//   id Int @id @default(autoincrement())
+//   descripcion String
+//   titulo String
+//   fechaCreacion DateTime
+//   fechaVencimiento DateTime
+//   usuarioId Int
+//   usuario User @relation(fields: [usuarioId], references: [id])
+//   etiquetaId Int
+//   etiqueta Etiqueta @relation(fields: [etiquetaId], references: [id])
+// }
 
-model TareasXColumnas {
-  columnaId Int
-  tareaId Int
-  fechaAlta DateTime
-  fechaBaja DateTime
-  columna Columna @relation(fields: [columnaId], references: [id])
-  tarea Tarea @relation(fields: [tareaId], references: [id])
-}
+// model Etiqueta {
+//   id Int @id @default(autoincrement())
+//   nombre String @unique
+//   color String
+// }
+
+// model TareasXColumnas {
+//   columnaId Int
+//   tareaId Int
+//   fechaAlta DateTime
+//   fechaBaja DateTime
+//   columna Columna @relation(fields: [columnaId], references: [id])
+//   tarea Tarea @relation(fields: [tareaId], references: [id])
+// }
