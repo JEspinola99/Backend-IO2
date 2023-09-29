@@ -17,8 +17,8 @@ export class AuthHelper {
         return bcrypt.hash(password, saltOrRounds);
     }
 
-    signToken(id: number, email:string){
-        const payload = {id, email}
+    signToken(id: number, email:string, nombre: string){
+        const payload = {id, email, nombre}
         return this.jwtService.signAsync(payload, {secret: jwtSecret})
     }
 }

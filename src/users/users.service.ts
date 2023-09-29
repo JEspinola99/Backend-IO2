@@ -14,11 +14,28 @@ export class UsersService {
         return bcrypt.hash(password, saltOrRounds);
     }
 
-    async createUser(user: AuthDto){
-        return this.prismaService.usuario.create({data: {nombre: user.nombre, hashedPassword: user.password, email: user.email}})
+    createUser(user: AuthDto) {
+        return this.prismaService.usuario.create({ data: { nombre: user.nombre, hashedPassword: user.password, email: user.email } })
     }
 
-    async getMyUser(email: string) {
-        return this.prismaService.usuario.findUnique({where : {email}, select: {id: true, email: true, hashedPassword: true}})
+    getMyUser(email: string) {
+        return this.prismaService.usuario.findUnique({
+            where: { email },
+            select:
+            {
+                id: true,
+                email: true,
+                hashedPassword: true,
+                nombre: true
+            }
+        })
+    }
+
+    getAll(){
+        return this.prismaService.usuario.findMany({select: {
+            id: true,
+            email: true,
+            nombre: true
+        }})
     }
 }

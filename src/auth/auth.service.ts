@@ -45,7 +45,7 @@ export class AuthService {
 
             if (!checkPass) throw new BadRequestException('Usuario o Contraseña no validos')
 
-            const token = await this.authUtils.signToken(foundUser.id, email)
+            const token = await this.authUtils.signToken(foundUser.id, email, foundUser.nombre)
 
             res.cookie('token', token, {
                 secure: true,
