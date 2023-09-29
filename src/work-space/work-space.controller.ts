@@ -8,9 +8,7 @@ export class WorkSpaceController {
   constructor(private readonly workSpaceService: WorkSpaceService) {}
 
   @Post('create')
-  // @UsePipes(new ParseIntPipe())
-  create(@Body() createWorkSpaceDto: CreateWorkSpaceDto) {
-    console.log(createWorkSpaceDto)
-    return this.workSpaceService.create(createWorkSpaceDto);
+  async create(@Body() createWorkSpaceDto: CreateWorkSpaceDto) {
+    return await this.workSpaceService.create(createWorkSpaceDto);
   }
 }
