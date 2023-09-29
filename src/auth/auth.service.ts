@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException, Inject, Injectable } from '@nestjs/common';
-import { AuthDto } from './dto/auth.dto';
+import { AuthDto, SigninDto } from './dto/auth.dto';
 import { AuthHelper } from './authHelper';
 import { PrismaHelper } from 'prisma/prismaHelper';
 import { Response, Request } from 'express';
@@ -33,7 +33,7 @@ export class AuthService {
         }
     }
 
-    async signin(user: AuthDto, res: Response) {
+    async signin(user: SigninDto, res: Response) {
         try {
             const { password, email } = user;
 
@@ -51,8 +51,8 @@ export class AuthService {
                 secure: true,
                 httpOnly: true
             })
-
-            return res.send("Logged in succesfully");
+            const resUser = {id: foundUser.id, email: foundUser.email}
+            return res.send(resUser);
 
         } catch (error) {
             throw error;

@@ -11,3 +11,10 @@ export class AuthDto {
     @IsString()
     public nombre: string;
 }
+
+export class SigninDto {
+    @IsEmail()
+    public email: string;
+    @IsString()
+    public password: string;
+}
