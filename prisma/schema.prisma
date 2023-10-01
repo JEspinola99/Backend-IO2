@@ -8,44 +8,47 @@ datasource db {
 }
 
 model Usuario {
-  id                 Int               @id @default(autoincrement())
-  email              String            @unique
-  nombre             String
-  hashedPassword     String
-  createdAt          DateTime          @default(now())
-  updatedAt          DateTime          @updatedAt
-  espaciosDeTrabajo  EspaciosDeTrabajoUsuario[]
+  id                Int                        @id @default(autoincrement())
+  email             String                     @unique
+  nombre            String
+  hashedPassword    String
+  createdAt         DateTime                   @default(now())
+  updatedAt         DateTime                   @updatedAt
+  espaciosDeTrabajo EspaciosDeTrabajoUsuario[]
 }
 
 model EspacioDeTrabajo {
-  id    Int    @id @default(autoincrement())
-  nombre  String @unique
+  id        Int                        @id @default(autoincrement())
+  nombre    String                     @unique
   creadorId Int
-  usuarios EspaciosDeTrabajoUsuario[]
+  usuarios  EspaciosDeTrabajoUsuario[]
+  Tablero   Tablero[]
 }
 
 model EspaciosDeTrabajoUsuario {
-  usuario Usuario @relation(fields: [usuarioId], references: [id])
-  usuarioId Int 
-  espacioDeTrabajo EspacioDeTrabajo @relation(fields: [espacioDeTrabajoId], references: [id])
+  usuario            Usuario          @relation(fields: [usuarioId], references: [id])
+  usuarioId          Int
+  espacioDeTrabajo   EspacioDeTrabajo @relation(fields: [espacioDeTrabajoId], references: [id])
   espacioDeTrabajoId Int
+
   @@id([usuarioId, espacioDeTrabajoId])
 }
 
-// model Tablero {
-//   id             Int      @id @default(autoincrement())
-//   nombre         String   @unique
-//   fechaCreacion  DateTime
-//   espacioDeTrabajoId    Int
-//   espacioDeTrabajo      EspacioDeTrabajo @relation(fields: [espacioDeTrabajoId], references: [id])
-// }
+model Tablero {
+  id                 Int              @id @default(autoincrement())
+  nombre             String           @unique
+  fechaCreacion      DateTime         @default(now())
+  espacioDeTrabajoId Int
+  espacioDeTrabajo   EspacioDeTrabajo @relation(fields: [espacioDeTrabajoId], references: [id])
+  Columna            Columna[]
+}
 
-// model Columna {
-//   id             Int      @id @default(autoincrement())
-//   nombre         String   @unique
-//   tableroId      Int
-//   tablero        Tablero @relation(fields: [tableroId], references: [id])
-// }
+model Columna {
+  id        Int     @id @default(autoincrement())
+  nombre    String  @unique
+  tableroId Int
+  tablero   Tablero @relation(fields: [tableroId], references: [id])
+}
 
 // model Tarea {
 //   id Int @id @default(autoincrement())
