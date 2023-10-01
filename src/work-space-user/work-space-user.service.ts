@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateWorkSpaceUserDto } from './dto/create-work-space-user.dto';
 import { UpdateWorkSpaceUserDto } from './dto/update-work-space-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
+import { WorkSpaceUser } from './entities/work-space-user.entity';
 
 @Injectable()
 export class WorkSpaceUserService {
@@ -9,15 +10,8 @@ export class WorkSpaceUserService {
   constructor(private prismaService: PrismaService) { }
 
 
-  create(createWorkSpaceUserDto: CreateWorkSpaceUserDto) {
-    return this.prismaService.espaciosDeTrabajoUsuario.create(
-      {
-        data:
-        {
-          usuarioId: createWorkSpaceUserDto.usuarioId,
-          espacioDeTrabajoId: createWorkSpaceUserDto.espacioDeTrabajoId
-        }
-      });
+  create(data: WorkSpaceUser[]) {
+    return this.prismaService.espaciosDeTrabajoUsuario.createMany({data});
   }
 
   async getSpacesByUserId(usuarioId: number) {

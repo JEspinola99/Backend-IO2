@@ -9,7 +9,11 @@ export class WorkSpaceUserController {
 
   @Post('create')
   async create(@Body() createWorkSpaceUserDto: CreateWorkSpaceUserDto) {
-    return await this.workSpaceUserService.create(createWorkSpaceUserDto);
+    const data = createWorkSpaceUserDto.usuarioId.map(usuario =>
+      ({usuarioId: usuario, 
+        espacioDeTrabajoId: createWorkSpaceUserDto.espacioDeTrabajoId
+      }))
+    return await this.workSpaceUserService.create(data);
   }
 
   @Get('getSpaces/:id')

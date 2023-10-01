@@ -1,1 +1,4 @@
-export class WorkSpaceUser {}
+export class WorkSpaceUser {
+    usuarioId: number;
+    espacioDeTrabajoId: number;
+}

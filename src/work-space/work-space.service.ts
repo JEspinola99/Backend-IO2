@@ -9,7 +9,12 @@ export class WorkSpaceService {
 
   constructor (private prismaService: PrismaService){}
 
-  create(data: Prisma.EspacioDeTrabajoCreateInput) {
-    return this.prismaService.espacioDeTrabajo.create({data});
+  create(data: CreateWorkSpaceDto) {
+    return this.prismaService.espacioDeTrabajo.create({
+      data: {
+        nombre: data.nombre,
+        creadorId: data.creadorId
+      }
+    });
   }
 }
