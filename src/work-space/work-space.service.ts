@@ -1,3 +1,4 @@
+import { Board } from './../boards/entities/board.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateWorkSpaceDto } from './dto/create-work-space.dto';
 import { UpdateWorkSpaceDto } from './dto/update-work-space.dto';
@@ -16,5 +17,9 @@ export class WorkSpaceService {
         creadorId: data.creadorId
       }
     });
+  }
+
+  getSpace(id: number) {
+    return this.prismaService.espacioDeTrabajo.findUnique({where: {id}, include: {Tablero: true}})
   }
 }
