@@ -22,6 +22,10 @@ export class WorkSpaceUserService {
       })
   }
 
+  getUsersBySpaceId(espacioDeTrabajoId: number){
+    return this.prismaService.espaciosDeTrabajoUsuario.findMany({where: {espacioDeTrabajoId}, include: {usuario: true}})
+  }
+
   findAll() {
     return `This action returns all workSpaceUser`;
   }

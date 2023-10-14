@@ -24,6 +24,11 @@ export class WorkSpaceUserController {
     return spaces;
   }
 
+  @Get('getUsers/:id')
+  async getUsers(@Param('id') id: number){
+    return this.workSpaceUserService.getUsersBySpaceId(id)
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.workSpaceUserService.findOne(+id);
