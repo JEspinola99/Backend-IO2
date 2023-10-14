@@ -5,4 +5,5 @@ export class CreateWorkSpaceDto {
     nombre: string;
     @IsNumber()
     creadorId: number;
+    usuarios?: number[];
 }
