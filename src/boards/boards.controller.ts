@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
+import { Board } from './../boards/entities/board.entity';
 
 @Controller('boards')
 export class BoardsController {
@@ -11,6 +12,17 @@ export class BoardsController {
   create(@Body() createBoardDto: CreateBoardDto) {
     return this.boardsService.create(createBoardDto);
   }
+
+  // @Post('create')
+  // async create(@Body() createBoardDto: CreateBoardDto) {
+  //   const createdBoard = await this.boardsService.create(createBoardDto);
+  //   await Board.create([{id: CreateBoardDto.espacioDeTrabajoId, nombre: CreateBoardDto.nombre ,fechaCreacion: ,espacioDeTrabajoId: }])
+  //   //[{usuarioId: createWorkSpaceDto.creadorId, espacioDeTrabajoId: createdSpace.id}])
+  //   return createdBoard;
+  // }
+
+
+
 
   @Get()
   findAll() {
