@@ -14,12 +14,17 @@ export class WorkSpaceService {
     return this.prismaService.espacioDeTrabajo.create({
       data: {
         nombre: data.nombre,
-        creadorId: data.creadorId
+        creadorId: data.creadorId,
       }
     });
   }
 
   getSpace(id: number) {
-    return this.prismaService.espacioDeTrabajo.findUnique({where: {id}, include: {Tablero: true}})
+    return this.prismaService.espacioDeTrabajo.findUnique({where: {id}, include: {usuarios: true}})
+  }
+
+  async updateSpace(data: UpdateWorkSpaceDto, id: number) {
+    const users = data.usuarios.map((user) => ({usuarioId: user}))
+    return this.prismaService.espacioDeTrabajo.update({where: {id}, data: {nombre: data.nombre, usuarios: {create: users}}})
   }
 }
