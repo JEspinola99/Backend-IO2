@@ -20,16 +20,17 @@ export class BoardsService {
     );
   }
 
-  findAll() {
-    return `This action returns all boards`;
+  async findAll() {
+    // return `This action returns all boards`;
+    return await this.prismaService.tablero.findMany();
   }
 
-  findById(id: number) {
-    return this.prismaService.tablero.findMany({where: {espacioDeTrabajoId: id}});
+  async findById(id: number) {
+    return await this.prismaService.tablero.findMany({where: {espacioDeTrabajoId: id}});
   }
 
   update(id: number, updateBoardDto: UpdateBoardDto) {
-    return `This action updates a #${id} board`;
+    return  `This action updates a #${id} board`;
   }
 
   remove(id: number) {
