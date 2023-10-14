@@ -15,6 +15,7 @@ model Usuario {
   createdAt         DateTime                   @default(now())
   updatedAt         DateTime                   @updatedAt
   espaciosDeTrabajo EspaciosDeTrabajoUsuario[]
+  tareas Tarea[]    // Relación inversa a través de tareas
 }
 
 model EspacioDeTrabajo {
@@ -22,7 +23,8 @@ model EspacioDeTrabajo {
   nombre    String                     @unique
   creadorId Int
   usuarios  EspaciosDeTrabajoUsuario[]
-  Tablero   Tablero[]
+  tablero   Tablero[]
+
 }
 
 model EspaciosDeTrabajoUsuario {
@@ -50,23 +52,24 @@ model Columna {
   tablero   Tablero @relation(fields: [tableroId], references: [id])
 }
 
-// model Tarea {
-//   id Int @id @default(autoincrement())
-//   descripcion String
-//   titulo String
-//   fechaCreacion DateTime
-//   fechaVencimiento DateTime
-//   usuarioId Int
-//   usuario User @relation(fields: [usuarioId], references: [id])
-//   etiquetaId Int
-//   etiqueta Etiqueta @relation(fields: [etiquetaId], references: [id])
-// }
+model Tarea {
+  id Int @id @default(autoincrement())
+  descripcion String
+  titulo String
+  fechaCreacion DateTime
+  fechaVencimiento DateTime
+  usuarioId Int
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  etiquetaId Int
+  etiqueta Etiqueta @relation(fields: [etiquetaId], references: [id])
+}
 
-// model Etiqueta {
-//   id Int @id @default(autoincrement())
-//   nombre String @unique
-//   color String
-// }
+model Etiqueta {
+  id Int @id @default(autoincrement())
+  nombre String @unique
+  color String
+  tareas Tarea[] // Relación inversa a través de tareas
+}
 
 // model TareasXColumnas {
 //   columnaId Int
