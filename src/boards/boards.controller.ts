@@ -6,22 +6,12 @@ import { Board } from './../boards/entities/board.entity';
 
 @Controller('boards')
 export class BoardsController {
-  constructor(private readonly boardsService: BoardsService) {}
+  constructor(private readonly boardsService: BoardsService){}
 
   @Post()
   create(@Body() createBoardDto: CreateBoardDto) {
     return this.boardsService.create(createBoardDto);
   }
-
-  // @Post('create')
-  // async create(@Body() createBoardDto: CreateBoardDto) {
-  //   const createdBoard = await this.boardsService.create(createBoardDto);
-  //   await Board.create([{id: CreateBoardDto.espacioDeTrabajoId, nombre: CreateBoardDto.nombre ,fechaCreacion: ,espacioDeTrabajoId: }])
-  //   //[{usuarioId: createWorkSpaceDto.creadorId, espacioDeTrabajoId: createdSpace.id}])
-  //   return createdBoard;
-  // }
-
-
 
 
   @Get()
