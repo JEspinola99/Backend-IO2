@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UsePipes, Put } from '@nestjs/common';
 import { WorkSpaceUserService } from './work-space-user.service';
 import { CreateWorkSpaceUserDto } from './dto/create-work-space-user.dto';
 import { UpdateWorkSpaceUserDto } from './dto/update-work-space-user.dto';

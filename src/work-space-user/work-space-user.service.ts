@@ -22,8 +22,13 @@ export class WorkSpaceUserService {
       })
   }
 
-  getUsersBySpaceId(espacioDeTrabajoId: number){
-    return this.prismaService.espaciosDeTrabajoUsuario.findMany({where: {espacioDeTrabajoId}, include: {usuario: true}})
+  async getUsersBySpaceId(espacioDeTrabajoId: number){
+    const users =  await this.prismaService.espaciosDeTrabajoUsuario.findMany({where: {espacioDeTrabajoId}, include: {usuario: true, espacioDeTrabajo: true}}) 
+    console.log(users)
+    if(users.length == 0) return []
+    const usersFormat = users.map(user => ({id: user.usuario.id, email: user.usuario.email}))
+    const res = { id: users[0].espacioDeTrabajo.id,nombre: users[0].espacioDeTrabajo.nombre, usuarios: usersFormat}
+    return res;
   }
 
   findAll() {
