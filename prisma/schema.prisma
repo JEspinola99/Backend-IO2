@@ -47,7 +47,7 @@ model Tablero {
 
 model Columna {
   id        Int     @id @default(autoincrement())
-  nombre    String  @unique
+  nombre    String  
   tableroId Int
   tablero   Tablero @relation(fields: [tableroId], references: [id])
 }

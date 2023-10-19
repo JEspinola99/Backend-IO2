@@ -22,7 +22,7 @@ export class WorkSpaceService {
   }
 
   getSpace(id: number) {
-    return this.prismaService.espacioDeTrabajo.findUnique({ where: { id }, include: { usuarios: true, Tablero: true } })
+    return this.prismaService.espacioDeTrabajo.findUnique({ where: { id }, include: { usuarios: true, tablero: true } })
   }
 
   async updateSpace(data: UpdateWorkSpaceDto, id: number) {
