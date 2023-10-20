@@ -10,4 +10,10 @@ export class CreateTaskDto {
     @IsDate()
     fechaVencimiento: Date;
   
+    @IsInt()
+    usuarioId: number;
+  
+    @IsInt()
+    etiquetaId: number;
+
 }

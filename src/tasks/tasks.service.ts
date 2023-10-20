@@ -5,8 +5,26 @@ import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class TasksService {
-  create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+  constructor(private readonly prismaService: PrismaService) {}
+  async create(createTaskDto: CreateTaskDto): Promise<any> {
+
+    const { descripcion, titulo, fechaVencimiento } = createTaskDto;
+
+    const taskData = {
+      descripcion: createTaskDto.descripcion,
+      titulo: createTaskDto.titulo,
+      fechaVencimiento: new Date(createTaskDto.fechaVencimiento),
+      fechaCreacion: new Date(), 
+      usuario: { connect: { id: createTaskDto.usuarioId } }, 
+      etiqueta: { connect: { id: createTaskDto.etiquetaId } }, 
+
+    };
+
+    const nuevaTarea = await this.prismaService.tarea.create({
+      data: taskData,
+    });
+
+    return nuevaTarea;
   }
 
   findAll() {

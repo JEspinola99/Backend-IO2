@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Tarea" ALTER COLUMN "fechaCreacion" SET DEFAULT CURRENT_TIMESTAMP;
