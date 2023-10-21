@@ -24,10 +24,12 @@ export class ColumnService {
   }
 
   update(id: number, updateColumnDto: UpdateColumnDto) {
-    return `This action updates a #${id} column`;
+    return this.prismaService.columna.update({where: {id}, data: {
+      nombre: updateColumnDto.nombre
+    }});
   }
 
   remove(id: number) {
-    return `This action removes a #${id} column`;
+    return this.prismaService.columna.delete({where: {id}});
   }
 }
