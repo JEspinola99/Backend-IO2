@@ -11,18 +11,26 @@ export class BoardsService {
   constructor(private prismaService: PrismaService, private workSpaceService: WorkSpaceService) { }
 
   async create(createBoardDto: CreateBoardDto) {
-    const { tablero } = await this.workSpaceService.getSpace(createBoardDto.espacioDeTrabajoId)
-    if (tablero.length > 6) return new BadRequestException()
-    return this.prismaService.tablero.create(
-      {
-        data:
+    try {
+      const { tablero } = await this.workSpaceService.getSpace(createBoardDto.espacioDeTrabajoId)
+      if (tablero.length >= 6) throw new BadRequestException('Un Espacio no puede tener mas de 6 tableros')
+      return this.prismaService.tablero.create(
         {
-          nombre: createBoardDto.nombre,
-          espacioDeTrabajoId: createBoardDto.espacioDeTrabajoId,
-          Columna: { create: [{ nombre: 'PENDIENTE' }, { nombre: 'EN PROGRESO' }, { nombre: 'HECHO' }] }
+          data:
+          {
+            nombre: createBoardDto.nombre,
+            espacioDeTrabajoId: createBoardDto.espacioDeTrabajoId,
+            Columna: { create: [{ nombre: 'PENDIENTE' }, { nombre: 'EN PROGRESO' }, { nombre: 'HECHO' }] }
+          }
         }
-      }
-    );
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  get(id: number){
+    return this.prismaService.tablero.findUnique({where: {id}, include: {Columna: true}})
   }
 
 }

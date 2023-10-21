@@ -38,7 +38,7 @@ model EspaciosDeTrabajoUsuario {
 
 model Tablero {
   id                 Int              @id @default(autoincrement())
-  nombre             String           @unique
+  nombre             String       
   fechaCreacion      DateTime         @default(now())
   espacioDeTrabajoId Int
   espacioDeTrabajo   EspacioDeTrabajo @relation(fields: [espacioDeTrabajoId], references: [id])

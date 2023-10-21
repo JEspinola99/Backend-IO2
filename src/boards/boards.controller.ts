@@ -12,4 +12,9 @@ export class BoardsController {
   create(@Body() createBoardDto: CreateBoardDto) {
     return this.boardsService.create(createBoardDto);
   }
+
+  @Get(':id')
+  get(@Param('id') id: number){
+    return this.boardsService.get(id)
+  }
 }
