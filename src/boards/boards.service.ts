@@ -20,7 +20,7 @@ export class BoardsService {
           {
             nombre: createBoardDto.nombre,
             espacioDeTrabajoId: createBoardDto.espacioDeTrabajoId,
-            Columna: { create: [{ nombre: 'PENDIENTE' }, { nombre: 'EN PROGRESO' }, { nombre: 'HECHO' }] }
+            columnas: { create: [{ nombre: 'PENDIENTE' }, { nombre: 'EN PROGRESO' }, { nombre: 'HECHO' }] }
           }
         }
       );
@@ -30,7 +30,7 @@ export class BoardsService {
   }
 
   get(id: number){
-    return this.prismaService.tablero.findUnique({where: {id}, include: {Columna: true}})
+    return this.prismaService.tablero.findUnique({where: {id}, include: {columnas: true}})
   }
 
 }

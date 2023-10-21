@@ -1,3 +1,4 @@
+import { Column } from './../column/entities/column.entity';
 import { Board } from './../boards/entities/board.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateWorkSpaceDto } from './dto/create-work-space.dto';
@@ -22,7 +23,14 @@ export class WorkSpaceService {
   }
 
   getSpace(id: number) {
-    return this.prismaService.espacioDeTrabajo.findUnique({ where: { id }, include: { usuarios: true, tablero: true } })
+    return this.prismaService.espacioDeTrabajo.findUnique(
+      {
+        where: { id },
+        include: {
+          usuarios: { include: { usuario: { select: { id: true, nombre: true, email: true } } } },
+          tablero: { include: { columnas: true } }
+        }
+      })
   }
 
   async updateSpace(data: UpdateWorkSpaceDto, id: number) {
@@ -30,7 +38,7 @@ export class WorkSpaceService {
     console.log(users)
     return this.prismaService.espacioDeTrabajo.update({
       where: { id },
-      data: { nombre: data.nombre, usuarios: {deleteMany: {}, create: users }}
+      data: { nombre: data.nombre, usuarios: { deleteMany: {}, create: users } }
     })
   }
 }

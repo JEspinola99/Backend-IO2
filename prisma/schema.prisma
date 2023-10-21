@@ -42,7 +42,7 @@ model Tablero {
   fechaCreacion      DateTime         @default(now())
   espacioDeTrabajoId Int
   espacioDeTrabajo   EspacioDeTrabajo @relation(fields: [espacioDeTrabajoId], references: [id])
-  Columna            Columna[]
+  columnas            Columna[]
 }
 
 model Columna {
