@@ -50,6 +50,7 @@ model Columna {
   nombre    String  
   tableroId Int
   tablero   Tablero @relation(fields: [tableroId], references: [id])
+  tareas    Tarea[]
 }
 
 model Tarea {
@@ -58,10 +59,12 @@ model Tarea {
   titulo String
   fechaCreacion DateTime @default(now())
   fechaVencimiento DateTime
-  usuarioId Int
-  usuario Usuario @relation(fields: [usuarioId], references: [id])
-  etiquetaId Int
-  etiqueta Etiqueta @relation(fields: [etiquetaId], references: [id])
+  usuarioId Int? 
+  usuario Usuario? @relation(fields: [usuarioId], references: [id])
+  etiquetaId Int?
+  etiqueta Etiqueta? @relation(fields: [etiquetaId], references: [id])
+  columnaId Int
+  columna Columna @relation(fields: [columnaId], references: [id])
 }
 
 model Etiqueta {

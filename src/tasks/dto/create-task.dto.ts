@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsDate, IsInt } from "class-validator"; 
+import { Optional } from "@nestjs/common";
+import { IsString, IsNotEmpty, IsDate, IsInt, IsNumber } from "class-validator"; 
 
 export class CreateTaskDto {
     @IsString()
@@ -7,13 +8,16 @@ export class CreateTaskDto {
     @IsString()
     titulo: string;
   
-    @IsDate()
-    fechaVencimiento: Date;
+    @IsString()
+    fechaVencimiento:  string;
   
-    @IsInt()
-    usuarioId: number;
+    @Optional()
+    usuarioId?: number;
   
-    @IsInt()
-    etiquetaId: number;
+    @Optional()
+    etiquetaId?: number;
+
+    @IsNumber()
+    columnaId: number;
 
 }

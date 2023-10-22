@@ -9,6 +9,6 @@ export class UpdateTaskDto extends PartialType(CreateTaskDto) {
     @IsString()
     titulo: string;
   
-    @IsDate()
-    fechaVencimiento: Date;
+    @IsString()
+    fechaVencimiento: string;
 }

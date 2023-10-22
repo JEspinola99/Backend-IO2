@@ -6,25 +6,29 @@ import { PrismaService } from 'prisma/prisma.service';
 @Injectable()
 export class TasksService {
   constructor(private readonly prismaService: PrismaService) {}
-  async create(createTaskDto: CreateTaskDto): Promise<any> {
+  // async create(createTaskDto: CreateTaskDto): Promise<any> {
 
-    const { descripcion, titulo, fechaVencimiento } = createTaskDto;
+  //   const { descripcion, titulo, fechaVencimiento } = createTaskDto;
 
-    const taskData = {
-      descripcion: createTaskDto.descripcion,
-      titulo: createTaskDto.titulo,
-      fechaVencimiento: new Date(createTaskDto.fechaVencimiento),
-      fechaCreacion: new Date(), 
-      usuario: { connect: { id: createTaskDto.usuarioId } }, 
-      etiqueta: { connect: { id: createTaskDto.etiquetaId } }, 
+  //   const taskData = {
+  //     descripcion: createTaskDto.descripcion,
+  //     titulo: createTaskDto.titulo,
+  //     fechaVencimiento: new Date(createTaskDto.fechaVencimiento),
+  //     fechaCreacion: new Date(), 
+  //     usuario: { connect: { id: createTaskDto.usuarioId } }, 
+  //     etiqueta: { connect: { id: createTaskDto.etiquetaId } }, 
 
-    };
+  //   };
 
-    const nuevaTarea = await this.prismaService.tarea.create({
-      data: taskData,
-    });
+  //   const nuevaTarea = await this.prismaService.tarea.create({
+  //     data: taskData,
+  //   });
 
-    return nuevaTarea;
+  //   return nuevaTarea;
+  // }
+
+  createTask(newTask: CreateTaskDto) {
+    return this.prismaService.tarea.create({data: {...newTask, fechaVencimiento: new Date(newTask.fechaVencimiento)}})
   }
 
   findAll() {
