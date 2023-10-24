@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { PrismaService } from 'prisma/prisma.service';
+import { DeleteTaskDto } from './dto/delete-task.dto';
 
 @Injectable()
 export class TasksService {
@@ -43,7 +44,8 @@ export class TasksService {
     return `This action updates a #${id} task`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  remove(data: DeleteTaskDto) {
+    console.log(data)
+    return this.prismaService.tarea.delete({where: {id: data.id, columnaId: data.columnaId}});
   }
 }

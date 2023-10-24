@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/
 import { ColumnService } from './column.service';
 import { CreateColumnDto } from './dto/create-column.dto';
 import { UpdateColumnDto } from './dto/update-column.dto';
+import { UpdateColumnsDto } from './dto/update-columns.dto';
 
 @Controller('column')
 export class ColumnController {
@@ -18,8 +19,13 @@ export class ColumnController {
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() updateData: UpdateColumnDto) {
-    return this.columnService.update(id, updateData)
+  updateName(@Param('id') id: number, @Body() updateData: UpdateColumnDto) {
+    return this.columnService.updateName(id, updateData)
+  }
+
+  @Patch('update')
+  updateColumn(@Body() updateData: UpdateColumnsDto) {
+    return this.columnService.updateColumns(updateData)
   }
 
   @Get(':id')
