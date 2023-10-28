@@ -1,12 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { DeleteTaskDto } from './dto/delete-task.dto';
+import { ColumnService } from 'src/column/column.service';
 
 @Injectable()
 export class TasksService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService, private readonly columnServive: ColumnService) {}
   // async create(createTaskDto: CreateTaskDto): Promise<any> {
 
   //   const { descripcion, titulo, fechaVencimiento } = createTaskDto;
@@ -28,9 +29,15 @@ export class TasksService {
   //   return nuevaTarea;
   // }
 
-  createTask(newTask: CreateTaskDto) {
-    const data = {...newTask, fechaVencimiento: new Date(newTask.fechaVencimiento)}
-    return this.prismaService.tarea.create({data})
+  async createTask(newTask: CreateTaskDto) {
+    const column = await this.columnServive.getTasksByColumnId(newTask.columnaId)
+    if(column.tareas.length >= column.maxTareas){
+      throw new BadRequestException('Limite maximo de tareas en columna alcanzado')
+    }else{
+      const data = {...newTask, fechaVencimiento: new Date(newTask.fechaVencimiento)}
+      return this.prismaService.tarea.create({data})
+    }
+
   }
 
   findAll() {

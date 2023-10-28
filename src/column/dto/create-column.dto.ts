@@ -5,4 +5,6 @@ export class CreateColumnDto {
     nombre: string;
     @IsNumber()
     tableroId: number;
+    @IsNumber()
+    maxTareas: number;
 }
