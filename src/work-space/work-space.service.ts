@@ -35,7 +35,6 @@ export class WorkSpaceService {
 
   async updateSpace(data: UpdateWorkSpaceDto, id: number) {
     const users = data.usuarios.map((user) => ({ usuarioId: user }))
-    console.log(users)
     return this.prismaService.espacioDeTrabajo.update({
       where: { id },
       data: { nombre: data.nombre, usuarios: { deleteMany: {}, create: users } }

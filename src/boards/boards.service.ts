@@ -29,8 +29,15 @@ export class BoardsService {
     }
   }
 
-  get(id: number){
-    return this.prismaService.tablero.findUnique({where: {id}, include: {columnas: true}})
+  get(id: number, params){
+    const usuarioId = Number(params.usuarioId)
+    if(usuarioId){
+      return this.prismaService.tablero.findUnique({where: {id}, 
+        include: {columnas: {include: {tareas: {include: {etiqueta: true}, where: {usuarioId}}}}}})
+    }else{
+      return this.prismaService.tablero.findUnique({where: {id}, 
+        include: {columnas: {include: {tareas: {include: {etiqueta: true}}}}}})
+    }
   }
 
 }
