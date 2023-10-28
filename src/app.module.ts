@@ -9,9 +9,10 @@ import { WorkSpaceUserModule } from './work-space-user/work-space-user.module';
 import { BoardsModule } from './boards/boards.module';
 import { ColumnModule } from './column/column.module';
 import { TasksModule } from './tasks/tasks.module';
+import { LabelModule } from './label/label.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, ConfigModule.forRoot(), WorkSpaceModule, WorkSpaceUserModule, BoardsModule, ColumnModule, TasksModule],
+  imports: [AuthModule, UsersModule, ConfigModule.forRoot(), WorkSpaceModule, WorkSpaceUserModule, BoardsModule, ColumnModule, TasksModule, LabelModule],
   providers: []
 })
 export class AppModule {}

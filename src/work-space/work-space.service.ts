@@ -28,7 +28,7 @@ export class WorkSpaceService {
         where: { id },
         include: {
           usuarios: { include: { usuario: { select: { id: true, nombre: true, email: true } } } },
-          tablero: { include: { columnas:  {orderBy: {id: 'asc'}, include: {tareas: {}}} } }
+          tablero: { include: { columnas:  {orderBy: {id: 'asc'}, include: {tareas: {include: {etiqueta: true}}}} } }
         }
       })
   }

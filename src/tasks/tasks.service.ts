@@ -29,7 +29,8 @@ export class TasksService {
   // }
 
   createTask(newTask: CreateTaskDto) {
-    return this.prismaService.tarea.create({data: {...newTask, fechaVencimiento: new Date(newTask.fechaVencimiento)}})
+    const data = {...newTask, fechaVencimiento: new Date(newTask.fechaVencimiento)}
+    return this.prismaService.tarea.create({data})
   }
 
   findAll() {
@@ -37,7 +38,7 @@ export class TasksService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} task`;
+    return this.prismaService.tarea.findUnique({where: {id}, include: {usuario: true, etiqueta: true}});
   }
 
   update(id: number, updateTaskDto: UpdateTaskDto) {
