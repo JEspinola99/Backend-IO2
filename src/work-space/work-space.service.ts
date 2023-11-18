@@ -1,10 +1,7 @@
-import { Column } from './../column/entities/column.entity';
-import { Board } from './../boards/entities/board.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateWorkSpaceDto } from './dto/create-work-space.dto';
 import { UpdateWorkSpaceDto } from './dto/update-work-space.dto';
 import { PrismaService } from 'prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class WorkSpaceService {
@@ -22,8 +19,8 @@ export class WorkSpaceService {
     });
   }
 
-  getSpace(id: number) {
-    return this.prismaService.espacioDeTrabajo.findUnique(
+  async getSpace(id: number) {
+    const data = await this.prismaService.espacioDeTrabajo.findUnique(
       {
         where: { id },
         include: {
@@ -31,6 +28,13 @@ export class WorkSpaceService {
           tablero: { include: { columnas:  {orderBy: {id: 'asc'}, include: {tareas: {include: {etiqueta: true}}}} } }
         }
       })
+      const boards = data.tablero.map((item) => ({
+        ...item,
+        columnas: item.columnas.map((col) => ({...col, numeroDeTareas: col.tareas.length}))
+      }))
+
+    const returnedData = {...data, tablero: boards}
+    return returnedData; 
   }
 
   async updateSpace(data: UpdateWorkSpaceDto, id: number) {

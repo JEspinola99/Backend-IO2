@@ -53,7 +53,6 @@ export class TasksService {
   }
 
   remove(data: DeleteTaskDto) {
-    console.log(data)
     return this.prismaService.tarea.delete({where: {id: data.id, columnaId: data.columnaId}});
   }
 }

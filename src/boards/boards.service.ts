@@ -12,8 +12,8 @@ export class BoardsService {
 
   async create(createBoardDto: CreateBoardDto) {
     try {
-      const { tablero } = await this.workSpaceService.getSpace(createBoardDto.espacioDeTrabajoId)
-      if (tablero.length >= 3) throw new BadRequestException('Un Espacio no puede tener mas de 3 tableros')
+      const response = await this.workSpaceService.getSpace(createBoardDto.espacioDeTrabajoId)
+       if (response.tablero.length >= 3) throw new BadRequestException('Un Espacio no puede tener mas de 3 tableros')
       return this.prismaService.tablero.create(
         {
           data:
@@ -29,15 +29,32 @@ export class BoardsService {
     }
   }
 
-  get(id: number, params){
+  async get(id: number, params){
     const usuarioId = Number(params?.usuarioId)
+    const boardData = await this.prismaService.tablero.findUnique({where: {id}, 
+      include: {columnas: {include: {tareas: {include: {etiqueta: true}}}, orderBy: {id: 'asc'}}}})
+      const tasksPerColumn = boardData.columnas.map(columna => columna.tareas.length)
     if(usuarioId){
-      return this.prismaService.tablero.findUnique({where: {id}, 
-        include: {columnas: {include: {tareas: {include: {etiqueta: true}, where: {usuarioId}}}}}})
+      const filtetedData = await this.prismaService.tablero.findUnique({where: {id}, 
+        include: {columnas: {orderBy: {id: 'asc'},include: {tareas: {include: {etiqueta: true}, where: {usuarioId}}}}}})      
+      const returnedColumns = filtetedData.columnas.map((columna, index) => ({
+        ...columna,
+        numeroDeTareas: tasksPerColumn[index]
+      }))
+      const returnedData = {...filtetedData, columnas: returnedColumns}
+      return returnedData;
     }else{
-      return this.prismaService.tablero.findUnique({where: {id}, 
-        include: {columnas: {include: {tareas: {include: {etiqueta: true}}}}}})
+      const returnedColumns = boardData.columnas.map((columna, index) => ({
+        ...columna,
+        numeroDeTareas: tasksPerColumn[index]
+      }))
+      const returnedData = {...boardData, columnas: returnedColumns }
+      return returnedData;
     }
+  }
+
+  getColumnTaskValue(id){
+    return this.prismaService.tablero.findUnique({where: {id}, include: {columnas: true}})
   }
 
 }
